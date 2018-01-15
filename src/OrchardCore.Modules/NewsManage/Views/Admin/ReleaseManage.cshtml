@@ -1,0 +1,62 @@
+<div class="panel panel-info" style="background: none;">
+    <div class="panel-body" style="width: 100%;">
+        <table id="table-javascript"
+               class="table table-hover table-responsive ">
+            <thead>
+            <th style="text-align: center; vertical-align: middle;">
+                <div class="th-inner ">作者</div>
+            </th>
+            <th style="text-align: center; vertical-align: middle;">
+                <div class="th-inner ">标题</div>
+            </th>
+            <th style="text-align: center; vertical-align: middle;">
+                <div class="th-inner ">新闻类型</div>
+            </th>
+            <th style="text-align: center; vertical-align: middle;">
+                <div class="th-inner ">创建时间</div>
+            </th>
+            <th style="text-align: center; vertical-align: middle;">
+                <div class="th-inner ">发布</div>
+            </th>
+            </thead>
+            <tbody id="dataTable" style=""></tbody>
+        </table>  
+    </div>
+</div>  
+
+
+<script>
+     $(document).ready(function() {
+      $.ajax({
+        type:'get',
+        url:"/New/NewsManage/Admin/ReadPartContents",//这里是url
+        success:function(Content){
+            //console.log(Content); //Content就是内容了，也就是url网页中的内容
+            createShowingTable(Content);
+             }
+    });
+
+     function createShowingTable(data) {
+        //获取后台传过来的jsonData,并进行解析
+        //此处需要让其动态的生成一个table并填充数据
+        var tableStr = "";
+        var len = data.length;
+        for (var i = 0; i < len; i++) {
+            if(data[i] !=0){
+                for(var j = 0;j< data[i].length;j++){
+                    tableStr = tableStr + "<tr><td align='center'>" +data[i][j].Author
+                    + "</td>" + "<td align='center'><a href='/New/NewsManage/Display/ReadContent?ContentItemId="
+                    + data[i][j].ContentItemId+"'>" + data[i][j].TitlePart.Title + "</a></td>"
+                    + "<td align='center'><a href='/New/NewsManage/Admin/List?ModelName="
+                    + data[i][j].ContentType+"'>" + data[i][j].ContentType + "</a></td>"
+                    + "<td align='center'>" + data[i][j].CreatedUtc + "</td>"
+                    + "<td align='center'>" + data[i][j].Published + "</td></tr>";
+                }
+            }
+        }
+        //将动态生成的table添加的事先隐藏的div中.
+        $("#dataTable").html(tableStr);
+    }
+    });
+</script>
+

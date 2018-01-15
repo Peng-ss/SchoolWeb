@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.ContentManagement.Abstractions\OrchardCore.ContentManagement.Abstractions.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.ContentTypes.Abstractions\OrchardCore.ContentTypes.Abstractions.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.Data.Abstractions\OrchardCore.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.Environment.Navigation\OrchardCore.Environment.Navigation.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.Module.Targets\OrchardCore.Module.Targets.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.Security.Abstractions\OrchardCore.Security.Abstractions.csproj" />
+    <ProjectReference Include="..\OrchardCore.Body\OrchardCore.Body.csproj" />
+    <ProjectReference Include="..\OrchardCore.Contents\OrchardCore.Contents.csproj" />
+    <ProjectReference Include="..\OrchardCore.ContentTypes\OrchardCore.ContentTypes.csproj" />
+    <ProjectReference Include="..\OrchardCore.Menu\OrchardCore.Menu.csproj" />
+    <ProjectReference Include="..\OrchardCore.Templates\OrchardCore.Templates.csproj" />
+    <ProjectReference Include="..\OrchardCore.Title\OrchardCore.Title.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Views\Admin\List.cshtml">
+      <PackagePath>assets\$(PackageId)\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
