@@ -26,7 +26,7 @@ namespace NewsManage
               .WithPart("AutoroutePart", part => part.WithPosition("3")
                                                        .WithSetting("ShowHomepageOption", "true")
 
-
+              
               )
           );
             return 1;

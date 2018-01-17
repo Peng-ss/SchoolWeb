@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,10 +24,6 @@ using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.Modules;
 using OrchardCore.Navigation;
 using OrchardCore.Settings;
-using OrchardCore.Templates.Controllers;
-using OrchardCore.Templates.Models;
-using OrchardCore.Templates.Services;
-using OrchardCore.Templates.ViewModels;
 using OrchardCore.Title.Model;
 using YesSql;
 using YesSql.Services;
@@ -37,9 +32,9 @@ namespace NewsManage.Controllers
 {
     public class AdminController : Controller, IUpdateModel
     {
-       
-        private readonly IContentManager _contentManager;
+
         private readonly IAuthorizationService _authorizationService;
+        private readonly IContentManager _contentManager;
         private readonly IContentDefinitionManager _contentDefinitionManager;
         private readonly ISession _session;
         private readonly IContentDefinitionService _contentDefinitionService;
@@ -47,11 +42,9 @@ namespace NewsManage.Controllers
         private readonly ISiteService _siteService;
         private readonly IEnumerable<IContentAdminFilter> _contentAdminFilters;
         private readonly IContentItemDisplayManager _contentItemDisplayManager;
-        private readonly TemplatesManager _templatesManager;
         public dynamic New { get; set; }
         public ILogger Logger { get; set; }
 
-        public IStringLocalizer T { get; set; }
         public AdminController(
             ISession session,
             ISiteService siteService,
@@ -63,9 +56,7 @@ namespace NewsManage.Controllers
             IContentItemDisplayManager contentItemDisplayManager,
             IEnumerable<IContentAdminFilter> contentAdminFilters,
             ILogger<AdminController> logger,
-            IContentDefinitionManager contentDefinitionManager,
-            TemplatesManager templatesManager,
-            IStringLocalizer<TemplateController> stringLocalizer
+            IContentDefinitionManager contentDefinitionManager
           )
         {
             _contentDefinitionDisplayManager = contentDefinitionDisplayManager;
@@ -79,13 +70,10 @@ namespace NewsManage.Controllers
             _contentAdminFilters = contentAdminFilters;
             _contentItemDisplayManager = contentItemDisplayManager;
             Logger = logger;
-            _templatesManager = templatesManager;
-            T = stringLocalizer;
         }
+
         public ActionResult NewManage()
         {
-           //新建一个Page模版
-           CreateIndexTemplate();
             return View();
         }
 
@@ -336,107 +324,6 @@ namespace NewsManage.Controllers
         }
 
 
-        //新建模版函数
-        public async void CreateIndexTemplate()
-        {
-            var MyTemplate = new TemplateViewModel { };
-            MyTemplate.Name = "Content__Page";
-            MyTemplate.Description = "A template for the  Page content type";
-            MyTemplate.Content = " <script src=\"/OrchardCore.Resources/Scripts/jquery.min.js\" type=\"text/javascript\"></script>" +
-"<script> " +
-"  var NewTypeData;" +
-"  $.ajax({        " +
-"  async: false,       " +
-"  type:\'get\',        " +
-"  url:\"/New/NewsManage/Display/ReadTypeContents\",        " +
-"  success:function(Content){            " +
-"  NewTypeData = Content;" +
-"  }    " +
-"  });  " +
-"  " +
-"  function createShowingNewType(data) {" +
-"  			var Str = \"<a href =\'\'><img src = \'/New/media/index_02.gif\' style =\'width:119px; height: 40px;float:left\'></a>\";  		" +
-"  			for (var i = 0; i < data.length; i++) {                 " +
-"         				Str = Str + \"<a href =\'/New/NewsManage/Display/TypeDisplayIndex?ContentType=\"+ data[i].NewPart.Name+" +
-"                                    \"\'><img src = \'/New/media/\" +data[i].NewPart.Name+ \".gif\' style =\'width:120px; height: 40px;float:left\'></a>\";" +
-"             }       " +
-"             $(\"#NewType\").html(Str);    " +
-"  }        " +
-"   $(function() {" +
-"    createShowingNewType(NewTypeData);" +
-"    var Type4ImgStr =\" <img src= \'/New/media/\"+NewTypeData[4].NewPart.NewDescription+" +
-"                     \".gif\' style = \'float:left;margin-left:1px;\' >\";" +
-"    var Type0ImgStr =\" <img src= \'/New/media/\"+NewTypeData[0].NewPart.NewDescription+" +
-"                     \".gif\' style = \'float:left;margin-left:1px;\' >\";" +
-"    $(\"#Type4Img\").html(Type4ImgStr);" +
-"    $(\"#Type0Img\").html(Type0ImgStr);                                       " +
-"   });                   " +
-"</script>" +
-"  <center> <div  style =\"width:980px;\">  " +
-"    <img src = \"/New/media/index_01.gif\" style =\"width:980px; height: 131px;\"> " +
-"    <div id =\"NewType\">  </div> " +
-"    <div style=\"width:980px;\"> 		" +
-"      <div style=\"width:980px;height:40px;\">             	</div>" +
-"      <div style=\"width:980px;height:40px;\">             	</div>  " +
-"      <div style=\"width:360px;height:450px;float:left;border:1px solid #cdf5ed;\">" +
-"          <script>" +
-"              $.ajax({        " +
-"  					type:\'get\',        " +
-"  					url:\"/New/NewsManage/Display/TypeDisplay?ContentType=\"+NewTypeData[0].NewPart.Name,      " +
-"  					success:function(Content){            " +
-"            			ShowingNewTypeContent(Content);" +
-"  					}    " +
-"  					});  " +
-"  			" +
-"             function ShowingNewTypeContent(data) {" +
-"  				var Str = \"\";" +
-"  				for (var i =(data.length-1); i>-1;i--) { " +
-"         			Str = Str +\" <li ><a href=\'/New/NewsManage/Display/NewPartDisplay?ContentType=\"+data[i].ContentType+" +
-"                                        \"&ContentItemId=\"+data[i].ContentItemId+\"\' title=\'\"+data[i].TitlePart.Title+\"\'>\"+data[i].TitlePart.Title+" +
-"                                        \"</a><span style=\'float:right;\'>\"+data[i].CreatedUtc.substring(0,10)+\"</span></li>\";" +
-"             	} " +
-"                 $(\"#ul0\").html(Str);" +
-"              }  " +
-"            " +
-"          </script>" +
-"          <div id=\"Type4Img\" style=\"width:100%;height:40px;\">" +
-"          " +
-"          </div >" +
-"          <div style=\"width:100%;height:410px;\">" +
-"             <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" class=\"box\">" +
-"                      <tbody>" +
-"                         <tr>" +
-"                           <td>" +
-"                             <ul id=\"ul0\"></ul>" +
-"                           </td>" +
-"                         </tr>" +
-"                       </tbody>" +
-"             </table>" +
-"          </div>" +
-"      </div>    	" +
-"      <div style=\"width:620px;height:650px;float:left;border:1px solid #cdf5ed;\">" +
-"       <div id=\"Type0Img\" style=\"width:100%;height:40px;\">" +
-"          " +
-"          </div >" +
-"      </div>  " +
-"    </div>  " +
-"    </div>" +
-"  </center>";
-            if (ModelState.IsValid)
-            {
-                if (String.IsNullOrWhiteSpace(MyTemplate.Name))
-                {
-                    ModelState.AddModelError(nameof(TemplateViewModel.Name), T["The name is mandatory."]);
-                }
-            }
-
-            if (ModelState.IsValid)
-            {
-                var template = new Template { Content = MyTemplate.Content, Description = MyTemplate.Description };
-
-                await _templatesManager.UpdateTemplateAsync(MyTemplate.Name, template);
-
-            }
-        }
+        
     }
 }

@@ -15,6 +15,7 @@
     <ProjectReference Include="..\OrchardCore.Contents\OrchardCore.Contents.csproj" />
     <ProjectReference Include="..\OrchardCore.ContentTypes\OrchardCore.ContentTypes.csproj" />
     <ProjectReference Include="..\OrchardCore.Menu\OrchardCore.Menu.csproj" />
+    <ProjectReference Include="..\OrchardCore.Roles\OrchardCore.Roles.csproj" />
     <ProjectReference Include="..\OrchardCore.Templates\OrchardCore.Templates.csproj" />
     <ProjectReference Include="..\OrchardCore.Title\OrchardCore.Title.csproj" />
   </ItemGroup>

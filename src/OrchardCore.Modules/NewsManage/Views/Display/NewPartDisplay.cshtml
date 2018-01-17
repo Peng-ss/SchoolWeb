@@ -1,7 +1,6 @@
-<script src="/OrchardCore.Resources/Scripts/jquery.min.js" type="text/javascript"></script>
 <center>
-    <div style="width:980px;">
-        <img src="/New/media/index_01.gif" style="width:980px; height: 131px;">
+    <div style="width:70%;">
+        <img src="/New/media/index_01.gif" style="width:100%; height: 131px;">
         <div id="NewType">
             <script>
                 $.ajax({
@@ -12,10 +11,10 @@
                     }
                 });
                 function createShowingNewType(data) {
-                    var Str = "<a href ='/New'><img src = '/New/media/index_02.gif' style ='width:119px; height: 40px;float:left'></a>";
+                    var Str = "<a href ='/New'><img src = '/New/media/index_02.gif' style ='width:10%; height: 40px;float:left'></a>";
   		            var len = data.length;
   		            for (var i = 0; i < len; i++) {
-                        Str = Str + "<a href ='/New/NewsManage/Display/TypeDisplayIndex?ContentType="+ data[i].NewPart.Name+"'><img src = '/New/media/" +data[i].NewPart.Name+ ".gif' style ='width:120px; height: 40px;float:left'></a>";
+                        Str = Str + "<a href ='/New/NewsManage/Display/TypeDisplayIndex?ContentType="+ data[i].NewPart.Name+"'><img src = '/New/media/" +data[i].NewPart.Name+ ".gif' style ='width:10%; height: 40px;float:left'></a>";
                      }
                 $("#NewType").html(Str);
                  }
@@ -24,7 +23,7 @@
 
 
         <div id=" weizhilan">
-            <table width="980" border="0" cellspacing="10" cellpadding="0">
+            <table width="100%" border="0" cellspacing="10" cellpadding="0">
                 <tbody>
                     <tr valign="top">
                         <td class="news_list">
@@ -71,7 +70,7 @@
 
 
 
-        <div id="ContentDisplay" style="width:650px;float:left">
+        <div id="ContentDisplay" style="width:66%;float:left;">
             <script type="text/javascript" charset="utf-8">
                  $.ajax({
                         type:"get",
@@ -80,7 +79,6 @@
                                 $("#tr3").html("<td><h2>"+Content[0].TitlePart.Title+"</h2></td> ");
                                 $("#tr4").html("<td class=\"info_text\">时间:"+Content[0].PublishedUtc.substring(0,10)+"&nbsp;&nbsp;作者："+Content[0].Author+"&nbsp;&nbsp;");
                                 $("#text").html(Content[0].BodyPart.Body);
-                console.log(Content[0].BodyPart.Body);
                         }
                  });
             </script>

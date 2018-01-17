@@ -14,11 +14,9 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/TheAdmin/Styles/TheAdmin.min.css">
     <style asp-name="font-awesome" use-cdn="true"></style>
-
-    <script src="/OrchardCore.Resources/Scripts/jquery.min.js" type="text/javascript"></script>
-    <script src="/OrchardCore.Resources/Scripts/jquery-ui.js" type="text/javascript"></script>
-    <script src="/TheAdmin/Scripts/TheAdmin.js" type="text/javascript"></script>
-
+    <script src="/TheAdmin/Scripts/jquery/jquery.min.js"></script>
+    <script src="/OrchardCore.Resources/Scripts/jquery-ui.min.js"></script>
+    <script asp-name="admin" asp-src="/TheAdmin/Scripts/TheAdmin.js"  at="Foot"></script>
     <resources type="Header" />
 
     @await RenderSectionAsync("Header", required: false)

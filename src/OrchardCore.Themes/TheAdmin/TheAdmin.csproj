@@ -14,4 +14,18 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="$(MicrosoftAspNetCoreMvcTagHelpersPackageVersion)" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Content\Scripts\jquery\jquery-ui.js">
+      <PackagePath>assets\$(PackageId)\</PackagePath>
+    </None>
+    <None Update="Content\Scripts\jquery\jquery.js">
+      <PackagePath>assets\$(PackageId)\</PackagePath>
+      <Pack>true</Pack>
+    </None>
+    <None Update="Content\Scripts\jquery\jquery.min.js">
+      <PackagePath>assets\$(PackageId)\</PackagePath>
+      <Pack>true</Pack>
+    </None>
+  </ItemGroup>
+
 </Project>

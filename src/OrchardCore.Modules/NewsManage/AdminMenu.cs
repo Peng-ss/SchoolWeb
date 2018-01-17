@@ -116,11 +116,15 @@ namespace NewsManage
                         var NewDisplayName = item.As<NewPart>().NewDisplayName;
                         var Name = item.As<NewPart>().Name;
                         builder.Add(T["新闻组管理"], index => index
-                            .Permission(Permissions.NewManage)
-                            .LocalNav()
                                 .Add(T[NewDisplayName], "3", contentParts => contentParts
-                                .Action("List", "Admin", new { area = "NewsManage", ModelName = Name }))
-
+                                    .Permission(Permissions.NewManage)
+                                    .Action("List", "Admin", new { area = "NewsManage", ModelName = Name }))
+                       );
+                        builder
+                             .Add(T["编辑管理"], index => index
+                                .Add(T[NewDisplayName], "3", contentParts => contentParts
+                                    .Permission(Permissions.NewEditor)
+                                    .Action("List", "Admin", new { area = "NewsManage", ModelName = Name }))
                        );
                     }
                 }
@@ -128,16 +132,19 @@ namespace NewsManage
 
             builder
                 .Add(T["新闻组管理"], index => index
-                .Permission(Permissions.NewManage)
-                    .LocalNav()
-                .Add(T["添加新闻类型"], "1", Top => Top
-                     .Action("NewManage", "Admin", new { area = "NewsManage" }))
+                    .Add(T["添加新闻类型"], "1", Top => Top
+                        .Permission(Permissions.NewManage)
+                        .Action("NewManage", "Admin", new { area = "NewsManage" }))
              );
             builder
-                 .Add(T["发布管理"], index => index
-                 .Permission(Permissions.NewManage)
-                     .LocalNav()
-                 .Action("ReleaseManage", "Admin", new { area = "NewsManage" })
+                 .Add(T["查看发布"], index => index
+                    .Permission(Permissions.NewManage)
+                    .Action("ReleaseManage", "Admin", new { area = "NewsManage" })
+            );
+            builder.
+                Add(T["新闻模块初始化"], initialSetup => initialSetup
+                    .Permission(Permissions.NewManage)
+                    .Action("NewSetup", "InitialSetup", new { area = "NewsManage" })
             );
         }
 

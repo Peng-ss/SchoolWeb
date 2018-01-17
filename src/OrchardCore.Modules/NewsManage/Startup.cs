@@ -16,6 +16,8 @@ namespace NewsManage
             services.AddScoped<IPermissionProvider, Permissions>();
             services.AddScoped<INavigationProvider, AdminMenu>();
             services.AddScoped<IDataMigration, Migrations>();
+
+
         }
     }
 }
