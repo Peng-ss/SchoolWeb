@@ -52,6 +52,8 @@ namespace NewsManage.Controllers
         [Admin]
         public ActionResult NewSetup()
         {
+            //新建Page模版
+            CreateIndexTemplate();
             string[] Role1 = new string[16] {"NewManage","AccessAdminPanel","EditOwnContent","EditContent","ViewOwnContent","PreviewOwnContent","PreviewContent",
             "ViewContentTypes","EditContentTypes","PublishOwnContent","PublishContent","DeleteOwnContent","DeleteContent","ViewContent","SetHomepage","ContentPreview"};
             string[] Role2 = new string[7] {"NewEditor","AccessAdminPanel","EditOwnContent","EditContent","ViewOwnContent","PreviewOwnContent","PreviewContent" };
@@ -69,8 +71,6 @@ namespace NewsManage.Controllers
             CreateRole(new CreateRoleViewModel { RoleName = "新闻管理者" }, rolePermissions1);
             //添加角色：新闻编辑者
             CreateRole(new CreateRoleViewModel { RoleName = "新闻编辑者" }, rolePermissions2);
-            CreateIndexTemplate();
-
             return View();
         }
 
@@ -153,7 +153,9 @@ namespace NewsManage.Controllers
 "      </div>      " +
 "    </div>     " +
 "    </div>  " +
-"  </center>"; ;
+"  </center>";
+           
+
             if (ModelState.IsValid)
             {
                 if (String.IsNullOrWhiteSpace(MyTemplate.Name))
@@ -169,6 +171,7 @@ namespace NewsManage.Controllers
                 await _templatesManager.UpdateTemplateAsync(MyTemplate.Name, template);
 
             }
+
         }
 
         //添加角色函数
@@ -188,7 +191,8 @@ namespace NewsManage.Controllers
                 var Newrole = new Role { RoleName = model.RoleName };
                 var result = await _roleManager.CreateAsync(Newrole);
 
-                _session.Cancel();
+                _session.Cancel();//session.Cancel()可以使用调用来阻止当前更改被提交。
+                                  //session.CommitAsync()，即使事务处理完毕后实际上将提交事务
 
                 foreach (var error in result.Errors)
                 {
