@@ -137,7 +137,7 @@ namespace NewsManage
                         .Action("NewManage", "Admin", new { area = "NewsManage" }))
              );
             builder
-                 .Add(T["查看发布"], index => index
+                 .Add(T["查看新闻"], index => index
                     .Permission(Permissions.NewManage)
                     .Action("ReleaseManage", "Admin", new { area = "NewsManage" })
             );

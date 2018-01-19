@@ -5,14 +5,9 @@ using OrchardCore.ContentManagement;
 
 namespace NewsManage.Models
 {
-    public class NewPart :ContentPart
+   public  class MyTestPart : ContentPart
     {
         public string Name { get; set; }
-
-        public string NewDisplayName { get; set; }
-        public string NewDescription { get; set; }
-
-        public Boolean Classify { get; set; }
-
+        public int id { get; set; }
     }
 }

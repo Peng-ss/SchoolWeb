@@ -1,0 +1,36 @@
+@using OrchardCore.ContentManagement.Metadata.Settings;
+@using NewsManage.ViewModels;
+@model TypeNewClassifyPartVM
+
+@inject IContentManager ContentManager
+@inject OrchardCore.ContentManagement.Metadata.IContentDefinitionManager ContentDefinitionManager
+@inject OrchardCore.ContentManagement.Display.IContentItemDisplayManager ContentItemDisplayManager
+
+
+@{
+    var TypeNewClassifyContentTypes = ContentDefinitionManager.ListTypeDefinitions().Where(t => t.Settings.ToObject<ContentTypeSettings>().Stereotype == "TypeNewClassify");
+}
+<fieldset class="form-group" asp-validation-class-for="NewClassifyType">
+    <label asp-for="NewClassifyType">@T["选择新闻分类"] <span asp-validation-for="NewClassifyType"></span></label>
+    <br>
+    @if (Model.NewClassifyType == null)
+    {
+        <select asp-for="NewClassifyType" style="width: 20%;height:30px;">
+            <option value =null>选择</option>
+            @foreach (var type in TypeNewClassifyContentTypes)
+            {
+                <option value=@type.DisplayName>@type.DisplayName</option>
+            }
+        </select>
+    }
+    @if (Model.NewClassifyType != null)
+    {
+        <select asp-for="NewClassifyType" style="width: 20%;height:30px;">
+            @foreach (var type in TypeNewClassifyContentTypes)
+            {
+                <option value=@type.DisplayName>@type.DisplayName</option>
+            }
+        </select>
+    }
+    
+</fieldset>

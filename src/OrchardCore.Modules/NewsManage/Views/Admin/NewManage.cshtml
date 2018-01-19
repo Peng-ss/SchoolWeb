@@ -55,7 +55,8 @@
                                               NewID : { editable: false, nullable: true },
                                               NewDisplayName : { validation: { required: true } },
                                               NewDescription : { validation: { required: true } },
-                                              Name:{}
+                                              Name:{},
+                                              Classify:{type: "boolean"}
                                             }
 
                                          }
@@ -80,6 +81,11 @@
                            {
                                field: "NewDescription",
                                title: "新闻组描述"
+                           },
+                           {
+                               field: "Classify",
+                               width: "15%",
+                               title: "新闻组是否分类"
                            },
                           { command: ["edit", "destroy"], title: "&nbsp;", width: "250px" }
                          ],

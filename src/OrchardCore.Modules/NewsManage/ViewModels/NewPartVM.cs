@@ -10,5 +10,6 @@ namespace NewsManage.ViewModels
         public string Name { get; set; }
         public string NewDisplayName { get; set; }
         public string NewDescription { get; set; }
+        public Boolean Classify { get; set; }
     }
 }

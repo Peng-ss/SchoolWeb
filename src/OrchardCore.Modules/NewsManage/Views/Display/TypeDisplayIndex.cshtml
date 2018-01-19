@@ -41,6 +41,7 @@
                                 url:"/New/NewsManage/Display/TypeDisplay?ContentType="+ContentType,//这里是url
                                 success:function(Content){
                                     ShowingNewTypeContent(Content);
+                                    console.log(Content);
                                  }
                               });
 
@@ -51,12 +52,17 @@
                                 var len = Data.length;
                                 for(var i = 0 ; i< len; i++)
                                 {
-                                    //if(Data[i].Published == 1) //true 和 1 比较是相同，false 和 0 比较是相同（是 “==” 比较）
-                                    //{
-                                        Str1 = Str1 +" <li ><a href='/New/NewsManage/Display/NewPartDisplay?ContentType="+ContentType+
+                                      if(Data[i].TypeNewClassifyPart) //判断是否有分类
+                                      {
+                                           Str1 = Str1 +" <li ><span style='float:left;'>广大人 | "+Data[i].TypeNewClassifyPart.NewClassifyType+"</span><a href='/New/NewsManage/Display/NewPartDisplay?ContentType="+ContentType+
                                                      "&ContentItemId="+Data[i].ContentItemId+"' title='"+Data[i].TitlePart.Title+
                                                      "'>"+Data[i].TitlePart.Title+"</a><span style='float:right;'>"+Data[i].CreatedUtc.substring(0,10)+"</span></li>";
-                                    // }
+                                      }
+                                      else{
+                                            Str1 = Str1 +" <li ><a href='/New/NewsManage/Display/NewPartDisplay?ContentType="+ContentType+
+                                                     "&ContentItemId="+Data[i].ContentItemId+"' title='"+Data[i].TitlePart.Title+
+                                                     "'>"+Data[i].TitlePart.Title+"</a><span style='float:right;'>"+Data[i].CreatedUtc.substring(0,10)+"</span></li>";
+                                      }
                                 }
                                  $("#ul1").html(Str1);
                               }

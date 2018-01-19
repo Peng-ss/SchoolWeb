@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
+using NewsManage.Drivers;
+using NewsManage.Models;
+using OrchardCore.ContentManagement;
+using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.Data.Migration;
 using OrchardCore.Environment.Navigation;
 using OrchardCore.Modules;
@@ -16,6 +20,8 @@ namespace NewsManage
             services.AddScoped<IPermissionProvider, Permissions>();
             services.AddScoped<INavigationProvider, AdminMenu>();
             services.AddScoped<IDataMigration, Migrations>();
+            services.AddScoped<IContentPartDisplayDriver, TypeNewClassifyPartDriver>();
+            services.AddSingleton<ContentPart, TypeNewClassifyPart>();
 
 
         }

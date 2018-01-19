@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using NewsManage.Common;
 using NewsManage.Models;
@@ -112,26 +111,39 @@ namespace NewsManage.Controllers
                 ContentItem DevicesInfoContentItem = _contentManager.New("新闻组管理");
                 DevicesInfoContentItem.Alter<NewPart>(x => x.NewDisplayName = item.NewDisplayName);
                 DevicesInfoContentItem.Alter<NewPart>(x => x.NewDescription = item.NewDescription);
+                DevicesInfoContentItem.Alter<NewPart>(x => x.Classify = item.Classify);
                 item.Name = "ContentType_" + item.NewDisplayName;
                 if (_contentDefinitionManager.GetTypeDefinition(item.Name) == null)
                 {
-                    var BodyPartSetting = new BodyPartSettings { };
-                    BodyPartSetting.Editor = "Wysiwyg";
-                    _contentDefinitionService.AddType(item.Name, item.NewDisplayName);
-                    _contentDefinitionManager.AlterTypeDefinition(item.Name, bulid => bulid
-                                                                    .Draftable()
-                                                                    .Creatable()
-                                                                    .Listable()
-                                                                    .WithPart("TitlePart")
-                                                                    .WithPart("BodyPart", part => part.WithSettings(BodyPartSetting))
-                                                                    );
+                    if (item.Classify == false)
+                    {
+                        var BodyPartSetting = new BodyPartSettings { };
+                        BodyPartSetting.Editor = "Wysiwyg";
+                        _contentDefinitionService.AddType(item.Name, item.NewDisplayName);
+                        _contentDefinitionManager.AlterTypeDefinition(item.Name, bulid => bulid
+                                                                        .Draftable()
+                                                                        .Creatable()
+                                                                        .Listable()
+                                                                        .WithPart("TitlePart")
+                                                                        .WithPart("BodyPart", part => part.WithSettings(BodyPartSetting))
+                                                                        );
+                    }
+                    else
+                    {
+                        var BodyPartSetting = new BodyPartSettings { };
+                        BodyPartSetting.Editor = "Wysiwyg";
+                        _contentDefinitionManager.AlterTypeDefinition(item.Name, bulid => bulid
+                        .DisplayedAs(item.NewDisplayName)
+                        .Draftable()
+                        .Creatable()
+                        .Listable()
+                        .WithPart("TitlePart", part => part.WithPosition("2"))
+                        .WithPart("BodyPart", part => part.WithSettings(BodyPartSetting).WithPosition("3"))
+                        .WithPart("TypeNewClassifyPart", part => part.WithPosition("1"))
+                        );
 
-                    //把添加的新闻内容类型加到ContentType——新闻主页
-                    //_contentDefinitionService.AddReusablePartToType(item.Name, item.NewDisplayName, item.NewDescription, "BagPart", "新闻主页");
-                    //_contentDefinitionManager.AlterTypeDefinition("新闻主页", menu => menu
-                    //    .WithPart(item.Name, part => part
-                    //        .WithPosition("1")
-                    //       ));
+                    }
+
                 }
                 DevicesInfoContentItem.Alter<TitlePart>(x => x.Title = item.NewDisplayName);
                 DevicesInfoContentItem.Alter<NewPart>(x => x.Name = item.Name);
@@ -152,7 +164,7 @@ namespace NewsManage.Controllers
                     NewDisplayName = m.As<NewPart>().NewDisplayName,
                     NewDescription = m.As<NewPart>().NewDescription,
                     Name = m.As<NewPart>().Name,
-
+                    Classify = m.As<NewPart>().Classify
                 });
             return this.Jsonp(list);
         }
@@ -164,19 +176,37 @@ namespace NewsManage.Controllers
                 ContentItem DevicesInfoContentItem = await _contentManager.GetAsync(item.NewID);
                 DevicesInfoContentItem.Alter<NewPart>(x => x.NewDisplayName = item.NewDisplayName);
                 DevicesInfoContentItem.Alter<NewPart>(x => x.NewDescription = item.NewDescription);
+                DevicesInfoContentItem.Alter<NewPart>(x =>x.Classify = item.Classify);
                 if (_contentDefinitionManager.GetTypeDefinition(item.Name) == null) { }
                 else
                 {
-                    var BodyPartSetting = new BodyPartSettings { };
-                    BodyPartSetting.Editor = "Wysiwyg";
-                    _contentDefinitionManager.AlterTypeDefinition(item.Name, bulid => bulid
-                    .DisplayedAs(item.NewDisplayName)
-                    .Draftable()
-                    .Creatable()
-                    .Listable()
-                    .WithPart("TitlePart")
-                    .WithPart("BodyPart", part => part.WithSettings(BodyPartSetting))
-                    );
+                    if (item.Classify == false)
+                    {
+                        var BodyPartSetting = new BodyPartSettings { };
+                        BodyPartSetting.Editor = "Wysiwyg";
+                        _contentDefinitionManager.AlterTypeDefinition(item.Name, bulid => bulid
+                        .DisplayedAs(item.NewDisplayName)
+                        .Draftable()
+                        .Creatable()
+                        .Listable()
+                        .WithPart("TitlePart")
+                        .WithPart("BodyPart", part => part.WithSettings(BodyPartSetting))
+                        );
+                    }
+                    else
+                    {
+                        var BodyPartSetting = new BodyPartSettings { };
+                        BodyPartSetting.Editor = "Wysiwyg";
+                        _contentDefinitionManager.AlterTypeDefinition(item.Name, bulid => bulid
+                        .DisplayedAs(item.NewDisplayName)
+                        .Draftable()
+                        .Creatable()
+                        .Listable()
+                        .WithPart("TitlePart",part => part.WithPosition("2"))
+                        .WithPart("BodyPart", part => part.WithSettings(BodyPartSetting).WithPosition("3"))
+                        .WithPart("TypeNewClassifyPart", part => part.WithPosition("1"))
+                        );
+                    }
                 }
                 DevicesInfoContentItem.Alter<TitlePart>(x => x.Title = item.NewDisplayName);
                 _session.Save(DevicesInfoContentItem);

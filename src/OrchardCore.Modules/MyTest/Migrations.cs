@@ -1,8 +1,11 @@
-using OrchardCore.ContentManagement.Metadata.Settings;
+using System;
+using System.Collections.Generic;
+using System.Text;
 using OrchardCore.ContentManagement.Metadata;
+using OrchardCore.ContentManagement.Metadata.Settings;
 using OrchardCore.Data.Migration;
 
-namespace OrchardCore.Contents
+namespace NewsManage
 {
     public class Migrations : DataMigration
     {
@@ -15,10 +18,7 @@ namespace OrchardCore.Contents
 
         public int Create()
         {
-            _contentDefinitionManager.AlterPartDefinition("CommonPart", builder => builder
-                .Attachable()
-                .WithDescription("Provides an editor for the common properties of a content item."));
-
+            
             return 1;
         }
     }

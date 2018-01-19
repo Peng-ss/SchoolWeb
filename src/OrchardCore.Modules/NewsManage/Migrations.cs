@@ -25,17 +25,17 @@ namespace NewsManage
               .WithPart("NewPart", part => part.WithPosition("2"))
               .WithPart("AutoroutePart", part => part.WithPosition("3")
                                                        .WithSetting("ShowHomepageOption", "true")
-
-              
               )
           );
+            _contentDefinitionManager.AlterPartDefinition("TypeNewClassifyPart", builder => builder
+                            .Attachable()
+                            .WithDescription("Provides a way to add TypeNewClassifyPart" + " per content items.")
+                        );
             return 1;
         }
 
         //public int UpdateFrom1()
         //{
-           
-        //      );
         //    return 2;
         //}
 
