@@ -11,6 +11,7 @@
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
     <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
+    <AssemblyName>OrchardCore.Cms.Web</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

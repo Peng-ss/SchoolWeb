@@ -70,6 +70,19 @@ namespace OrchardCore.ContentManagement
             });
         }
 
+        //新建
+        public ContentTypeDefinition GetLastTypeDefinition(string name)
+        {
+            return _typeDefinitions.GetOrAdd(name, n =>
+            {
+                var contentTypeDefinitionRecord = GetContentDefinitionRecord()
+                    .ContentTypeDefinitionRecords
+                    .LastOrDefault(x => x.Name == name);
+
+                return Build(contentTypeDefinitionRecord);
+            });
+        }
+
         public ContentPartDefinition GetPartDefinition(string name)
         {
             return _partDefinitions.GetOrAdd(name, n =>

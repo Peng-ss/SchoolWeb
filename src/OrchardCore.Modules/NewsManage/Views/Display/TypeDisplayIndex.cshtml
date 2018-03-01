@@ -2,26 +2,7 @@
 
 <center>
     <div style="width:70%;">
-        <img src="/New/media/index_01.gif" style="width:100%; height: 131px;border-bottom">
-        <div id="NewType" style="width:100%;height:40px;">
-            <script>
-                $.ajax({
-                    type:'get',
-                    url:"/New/NewsManage/Display/ReadTypeContents",
-                    success:function(Content){
-                        createShowingNewType(Content)
-                    }
-                 });
-                function createShowingNewType(data) {
-                    var Str = "<a href ='/New'><img src = '/New/media/index_02.gif' style ='width:10%; height: 40px;float:left'></a>";
-  		            var len = data.length;
-  		            for (var i = 0; i < len; i++) {
-                        Str = Str + "<a href ='/New/NewsManage/Display/TypeDisplayIndex?ContentType="+ data[i].NewPart.Name+"'><img src = '/New/media/" +data[i].NewPart.Name+ ".gif' style ='width:10%; height: 40px;float:left'></a>";
-                    }
-                    $("#NewType").html(Str);
-                }
-            </script>
-        </div>
+        
         <div style="width:100%;height:40px;margin-left:1px;">             	</div> 
         <div>
             <table width="100%" border="0" cellspacing="10" cellpadding="0">
@@ -41,7 +22,7 @@
                                 url:"/New/NewsManage/Display/TypeDisplay?ContentType="+ContentType,//这里是url
                                 success:function(Content){
                                     ShowingNewTypeContent(Content);
-                                    console.log(Content);
+                                   
                                  }
                               });
 
@@ -97,3 +78,7 @@
     </div>
    
 </center>
+
+
+
+

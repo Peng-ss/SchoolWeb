@@ -18,6 +18,8 @@ namespace OrchardCore.ContentManagement.Metadata
         IEnumerable<ContentPartDefinition> ListPartDefinitions();
 
         ContentTypeDefinition GetTypeDefinition(string name);
+
+        ContentTypeDefinition GetLastTypeDefinition(string name);
         ContentPartDefinition GetPartDefinition(string name);
         void DeleteTypeDefinition(string name);
         void DeletePartDefinition(string name);

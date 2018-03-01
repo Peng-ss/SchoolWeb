@@ -1,25 +1,5 @@
 <center>
     <div style="width:70%;">
-        <img src="/New/media/index_01.gif" style="width:100%; height: 131px;">
-        <div id="NewType">
-            <script>
-                $.ajax({
-                    type:"get",
-                    url:"/New/NewsManage/Display/ReadTypeContents",
-                    success:function(Content){
-                        createShowingNewType(Content)
-                    }
-                });
-                function createShowingNewType(data) {
-                    var Str = "<a href ='/New'><img src = '/New/media/index_02.gif' style ='width:10%; height: 40px;float:left'></a>";
-  		            var len = data.length;
-  		            for (var i = 0; i < len; i++) {
-                        Str = Str + "<a href ='/New/NewsManage/Display/TypeDisplayIndex?ContentType="+ data[i].NewPart.Name+"'><img src = '/New/media/" +data[i].NewPart.Name+ ".gif' style ='width:10%; height: 40px;float:left'></a>";
-                     }
-                $("#NewType").html(Str);
-                 }
-            </script>
-        </div>
 
 
         <div id=" weizhilan">
@@ -33,33 +13,31 @@
                                     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
                                     var r = window.location.search.substr(1).match(reg);
                                     if (r != null) return decodeURI(r[2]); return null;
-                                 }
+                                }
                                 var ContentType = getQueryString("ContentType");
                                 var ContentItemId = getQueryString("ContentItemId");
                                 $.ajax({
-                                    type:'get',
-                                    url:"/New/NewsManage/Display/TypeDisplay?ContentType="+ContentType,//这里是url
-                                    success:function(Content){
+                                    type: 'get',
+                                    url: "/New/NewsManage/Display/TypeDisplay?ContentType=" + ContentType,//这里是url
+                                    success: function (Content) {
                                         handleData(Content);
                                     }
                                 });
 
-                                function handleData(Data){
+                                function handleData(Data) {
                                     //当前位置
-                                    $("#tr1").html("<td>您当前的位置：<a href='/New'>首页</a>&nbsp;&gt;&nbsp;<a href='/New/NewsManage/Display/TypeDisplayIndex?ContentType="+ContentType+"'>"+ContentType.substring(12)+"</a></td>");
+                                    $("#tr1").html("<td>您当前的位置：<a href='/New'>首页</a>&nbsp;&gt;&nbsp;<a href='/New/NewsManage/Display/TypeDisplayIndex?ContentType=" + ContentType + "'>" + ContentType.substring(12) + "</a></td>");
                                     var Str1 = "";
                                     var len = Data.length;
-                                    for(var i = 0 ; i< len; i++){
-                                        Str1 = Str1 +" <li ><a href='/New/NewsManage/Display/NewPartDisplay?ContentItemId="+Data[i].ContentItemId+"' title='"+Data[i].TitlePart.Title+"'>"+Data[i].TitlePart.Title+"</a><span>"+Data[i].CreatedUtc.substring(0,10)+"</span></li>";
+                                    for (var i = 0; i < len; i++) {
+                                        Str1 = Str1 + " <li ><a href='/New/NewsManage/Display/NewPartDisplay?ContentItemId=" + Data[i].ContentItemId + "' title='" + Data[i].TitlePart.Title + "'>" + Data[i].TitlePart.Title + "</a><span>" + Data[i].CreatedUtc.substring(0, 10) + "</span></li>";
                                     }
                                     $("#ul1").html(Str1);
-                                 }
-                </script>
+                                }
+                            </script>
                             <table width="100%" border="0" cellspacing="0" cellpadding="0" class="position">
                                 <tbody>
-                                    <tr id="tr1">
-
-                                    </tr>
+                                    <tr id="tr1"></tr>
                                 </tbody>
                             </table>
                         </td>
@@ -72,15 +50,15 @@
 
         <div id="ContentDisplay" style="width:66%;float:left;">
             <script type="text/javascript" charset="utf-8">
-                 $.ajax({
-                        type:"get",
-                        url:"/New/NewsManage/Display/ReadContent?ContentItemId="+ContentItemId,
-                        success:function(Content){
-                                $("#tr3").html("<td><h2>"+Content[0].TitlePart.Title+"</h2></td> ");
-                                $("#tr4").html("<td class=\"info_text\">时间:"+Content[0].PublishedUtc.substring(0,10)+"&nbsp;&nbsp;作者："+Content[0].Author+"&nbsp;&nbsp;");
-                                $("#text").html(Content[0].BodyPart.Body);
-                        }
-                 });
+                $.ajax({
+                    type: "get",
+                    url: "/New/NewsManage/Display/ReadContent?ContentItemId=" + ContentItemId,
+                    success: function (Content) {
+                        $("#tr3").html("<td><h2>" + Content[0].TitlePart.Title + "</h2></td> ");
+                        $("#tr4").html("<td class=\"info_text\">时间:" + Content[0].PublishedUtc.substring(0, 10) + "&nbsp;&nbsp;作者：" + Content[0].Author + "&nbsp;&nbsp;");
+                        $("#text").html(Content[0].BodyPart.Body);
+                    }
+                });
             </script>
             <table width="100%" border="0" cellspacing="0" cellpadding="0" class="box">
                 <tbody>
@@ -88,19 +66,14 @@
                         <td>
                             <table width="100%" border="0" cellpadding="0" cellspacing="0" class="title_info">
                                 <tbody>
-                                    <tr id="tr3">
-                                    </tr>
-                                    <tr id="tr4">
-                                        
-                                    </tr>
+                                    <tr id="tr3"></tr>
+                                    <tr id="tr4"></tr>
                                 </tbody>
                             </table>
                             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                 <tbody>
                                     <tr>
-                                        <td id="text">
-                                           
-                                        </td>
+                                        <td id="text"></td>
                                     </tr>
                                 </tbody>
                             </table>

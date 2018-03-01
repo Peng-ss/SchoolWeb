@@ -1,4 +1,4 @@
-﻿@model AdminQueryViewModel
+@model AdminQueryViewModel
 @using OrchardCore.ContentManagement;
 @inject IContentManager ContentManager
 
@@ -90,3 +90,6 @@
         CodeMirror.fromTextArea(document.getElementById('@Html.IdFor(m => m.Parameters)'), { mode: "javascript", json: true, lineNumbers: true, viewportMargin: Infinity });
     });
 </script>
+
+
+

@@ -147,7 +147,7 @@ namespace NewsManage.Controllers
                 }
                 DevicesInfoContentItem.Alter<TitlePart>(x => x.Title = item.NewDisplayName);
                 DevicesInfoContentItem.Alter<NewPart>(x => x.Name = item.Name);
-                _contentDefinitionManager.GetTypeDefinition(item.NewDisplayName);
+                _contentDefinitionManager.GetTypeDefinition(item.Name);
                 _contentManager.Create(DevicesInfoContentItem);
                 item.NewID = DevicesInfoContentItem.ContentItemId;
 
@@ -177,6 +177,7 @@ namespace NewsManage.Controllers
                 DevicesInfoContentItem.Alter<NewPart>(x => x.NewDisplayName = item.NewDisplayName);
                 DevicesInfoContentItem.Alter<NewPart>(x => x.NewDescription = item.NewDescription);
                 DevicesInfoContentItem.Alter<NewPart>(x =>x.Classify = item.Classify);
+                item.Name = "ContentType_" + item.NewDisplayName;
                 if (_contentDefinitionManager.GetTypeDefinition(item.Name) == null) { }
                 else
                 {
@@ -208,7 +209,9 @@ namespace NewsManage.Controllers
                         );
                     }
                 }
+                DevicesInfoContentItem.Alter<NewPart>(x => x.Name = item.Name);
                 DevicesInfoContentItem.Alter<TitlePart>(x => x.Title = item.NewDisplayName);
+                _contentDefinitionManager.GetTypeDefinition(item.Name);
                 _session.Save(DevicesInfoContentItem);
             }
             return this.Jsonp(temp);
@@ -240,7 +243,6 @@ namespace NewsManage.Controllers
             Pager pager = new Pager(pagerParameters, siteSettings.PageSize);
             model.Id = ModelName;
             var query = _session.Query<ContentItem, ContentItemIndex>();
-
             switch (model.Options.ContentsStatus)
             {
                 case ContentsStatus.Published:
@@ -259,7 +261,7 @@ namespace NewsManage.Controllers
 
             if (!string.IsNullOrEmpty(model.TypeName))
             {
-                var contentTypeDefinition = _contentDefinitionManager.GetTypeDefinition(model.TypeName);
+                var contentTypeDefinition = _contentDefinitionManager.GetLastTypeDefinition(model.TypeName);
                 if (contentTypeDefinition == null)
                     return NotFound();
 
