@@ -307,8 +307,10 @@ namespace OrchardCore.Contents.Controllers
             {
                 return Unauthorized();
             }
-
+        
+            
             var model = await _contentItemDisplayManager.BuildEditorAsync(contentItem, this, true);
+            
 
             return View(model);
         }
@@ -317,6 +319,7 @@ namespace OrchardCore.Contents.Controllers
         [FormValueRequired("submit.Save")]
         public Task<IActionResult> CreatePOST(string id, string returnUrl)
         {
+            
             return CreatePOST(id, returnUrl, contentItem =>
             {
                 var typeDefinition = _contentDefinitionManager.GetTypeDefinition(contentItem.ContentType);
@@ -333,7 +336,10 @@ namespace OrchardCore.Contents.Controllers
         [FormValueRequired("submit.Publish")]
         public async Task<IActionResult> CreateAndPublishPOST(string id, string returnUrl)
         {
+            
+
             // pass a dummy content to the authorization check to check for "own" variations
+
             var dummyContent = _contentManager.New(id);
 
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.PublishContent, dummyContent))
@@ -354,6 +360,11 @@ namespace OrchardCore.Contents.Controllers
 
         private async Task<IActionResult> CreatePOST(string id, string returnUrl, Func<ContentItem, Task> conditionallyPublish)
         {
+            //自定义，路径问题：原本returnUrl是域名，有子站点的时候会出现路径,，加上子站点名。
+            if (this.HttpContext.Request.PathBase != null)
+            {
+                returnUrl = this.HttpContext.Request.PathBase + returnUrl;
+            }
             var contentItem = _contentManager.New(id);
 
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.EditContent, contentItem))

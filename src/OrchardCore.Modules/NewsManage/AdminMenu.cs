@@ -141,11 +141,11 @@ namespace NewsManage
                     .Permission(Permissions.NewManage)
                     .Action("ReleaseManage", "Admin", new { area = "NewsManage" })
             );
-            builder.
-                Add(T["新闻模块初始化"], initialSetup => initialSetup
-                    .Permission(Permissions.NewManage)
-                    .Action("NewSetup", "InitialSetup", new { area = "NewsManage" })
-            );
+            //builder.
+            //    Add(T["新闻模块初始化"], initialSetup => initialSetup
+            //        .Permission(Permissions.NewManage)
+            //        .Action("NewSetup", "InitialSetup", new { area = "NewsManage" })
+            //);
         }
 
         

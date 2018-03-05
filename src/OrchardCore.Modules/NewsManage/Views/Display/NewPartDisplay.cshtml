@@ -1,5 +1,6 @@
+<br><br>
 <center>
-    <div style="width:70%;">
+    <div class="container" width="960" style="padding-left:5.4%">
 
 
         <div id=" weizhilan">
@@ -48,40 +49,43 @@
 
 
 
-        <div id="ContentDisplay" style="width:66%;float:left;">
+        <div id="ContentDisplay" >
             <script type="text/javascript" charset="utf-8">
                 $.ajax({
                     type: "get",
                     url: "/New/NewsManage/Display/ReadContent?ContentItemId=" + ContentItemId,
                     success: function (Content) {
-                        $("#tr3").html("<td><h2>" + Content[0].TitlePart.Title + "</h2></td> ");
-                        $("#tr4").html("<td class=\"info_text\">时间:" + Content[0].PublishedUtc.substring(0, 10) + "&nbsp;&nbsp;作者：" + Content[0].Author + "&nbsp;&nbsp;");
+                        $("#tr3").html("<td><h2><center>" + Content[0].TitlePart.Title + " </center></h2></td>");
+                        $("#tr4").html("<td class=\"info_text\"><center>时间:" + Content[0].PublishedUtc.substring(0, 10) + "&nbsp;&nbsp;作者：" + Content[0].Author + "&nbsp;&nbsp; </center>");
                         $("#text").html(Content[0].BodyPart.Body);
                     }
                 });
             </script>
-            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="box">
-                <tbody>
-                    <tr>
-                        <td>
-                            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="title_info">
-                                <tbody>
-                                    <tr id="tr3"></tr>
-                                    <tr id="tr4"></tr>
-                                </tbody>
-                            </table>
-                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                <tbody>
-                                    <tr>
-                                        <td id="text"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="box">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <table width="100%" border="0" cellpadding="0" cellspacing="0" class="title_info">
+                                    <tbody>
+                                        <tr id="tr3"></tr>
+                                        <tr id="tr4"></tr>
+                                    </tbody>
+                                </table>
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tbody>
+                                        <tr>
+                                            <td id="text"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            
         </div>
     </div>
 </center>
-
+<br><br>
+<br><br>

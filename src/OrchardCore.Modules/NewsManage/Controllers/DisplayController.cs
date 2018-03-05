@@ -1,7 +1,9 @@
+using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using OrchardCore.ContentManagement;
 using OrchardCore.DisplayManagement.ModelBinding;
+using OrchardCore.Mvc.ActionConstraints;
 using YesSql;
 
 namespace NewsManage.Controllers
@@ -48,6 +50,19 @@ namespace NewsManage.Controllers
                   .Where(x => x.ContentType == ContentType && x.Latest)
                   .Where(x => x.Published == true);//筛选出未发布的
             return Json(NewPartData);
+        }
+
+        public ActionResult SearchDisplay()
+        {
+
+            return View();
+        }
+
+        public JsonResult Search()
+        {
+            var list = "";
+
+            return Json(list);
         }
     }
 }
