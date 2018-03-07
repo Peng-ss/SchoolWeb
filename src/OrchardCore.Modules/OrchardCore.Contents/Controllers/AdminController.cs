@@ -361,7 +361,7 @@ namespace OrchardCore.Contents.Controllers
         private async Task<IActionResult> CreatePOST(string id, string returnUrl, Func<ContentItem, Task> conditionallyPublish)
         {
             //自定义，路径问题：原本returnUrl是域名，有子站点的时候会出现路径,，加上子站点名。
-            if (this.HttpContext.Request.PathBase != null)
+            if (returnUrl !=null && this.HttpContext.Request.PathBase != null)
             {
                 returnUrl = this.HttpContext.Request.PathBase + returnUrl;
             }

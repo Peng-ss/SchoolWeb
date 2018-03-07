@@ -1,0 +1,61 @@
+@model OrchardCore.Queries.Sql.ViewModels.AdminQueryViewModel
+
+<br><br>
+    <div class="container" width="960" style="padding-left:5.4%">
+
+        @if (Model.Documents.Any())
+    {
+        <h2>你查找的新闻，如下：</h2>
+        <div class="panel panel-info" style="background: none;">
+            <div class="panel-body" style="width: 100%;">
+                <table id="table-javascript"
+                       class="table table-hover table-responsive ">
+                    <thead>
+                    <th style="text-align: center; vertical-align: middle;">
+                        <div class="th-inner ">作者</div>
+                    </th>
+                    <th style="text-align: center; vertical-align: middle;">
+                        <div class="th-inner ">标题</div>
+                    </th>
+                    <th style="text-align: center; vertical-align: middle;">
+                        <div class="th-inner ">新闻类型</div>
+                    </th>
+                    <th style="text-align: center; vertical-align: middle;">
+                        <div class="th-inner ">创建时间</div>
+                    </th>
+                    </thead>
+                    <tbody id="dataTable" style=""></tbody>
+                </table>
+            </div>
+        </div>
+        <script>
+            var tableStr = "";
+        </script>
+        @foreach (var document in Model.Documents)
+    {
+        <script>
+            var list = JSON.parse(@Json.Serialize(document.Content));
+            console.log(list);
+            tableStr = tableStr + "<tr><td align='center'>" + list.Author 
+                + "</td>" + "<td align='center'><a href='/New/NewsManage/Display/NewPartDisplay?ContentItemId="
+                + list.ContentItemId + "'>" + list.TitlePart.Title + "</a></td>"
+                + "<td align='center'><a href='/New/NewsManage/Display/TypeDisplayIndex?ContentType="
+                + list.ContentType + "'>" + list.ContentType.substring(12) + "</a></td>"
+                + "<td align='center'>" + list.PublishedUtc.substring(0,10) + "</td>";
+            
+        </script>
+
+}
+        <script>
+            $("#dataTable").html(tableStr);
+        </script>
+}
+        @if (!Model.Documents.Any())
+    {
+        <h1>没有找到你要查找的新闻!!!</h1>
+
+}
+
+    </div>
+
+

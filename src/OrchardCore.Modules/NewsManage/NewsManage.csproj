@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageAssetFiles Remove="Views\Display\SearchDisplay.cshtml" />
+    <PackageAssetFiles Remove="Views\Display\SearchContent.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,6 +19,7 @@
     <ProjectReference Include="..\OrchardCore.Contents\OrchardCore.Contents.csproj" />
     <ProjectReference Include="..\OrchardCore.ContentTypes\OrchardCore.ContentTypes.csproj" />
     <ProjectReference Include="..\OrchardCore.Menu\OrchardCore.Menu.csproj" />
+    <ProjectReference Include="..\OrchardCore.Queries\OrchardCore.Queries.csproj" />
     <ProjectReference Include="..\OrchardCore.Roles\OrchardCore.Roles.csproj" />
     <ProjectReference Include="..\OrchardCore.Templates\OrchardCore.Templates.csproj" />
     <ProjectReference Include="..\OrchardCore.Title\OrchardCore.Title.csproj" />

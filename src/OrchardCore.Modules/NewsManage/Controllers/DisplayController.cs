@@ -1,9 +1,24 @@
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using Dapper;
+using Fluid;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
+using NewsManage.Models;
+using NewsManage.ViewModels;
+using Newtonsoft.Json;
+using OrchardCore.Admin;
 using OrchardCore.ContentManagement;
 using OrchardCore.DisplayManagement.ModelBinding;
+using OrchardCore.Liquid;
 using OrchardCore.Mvc.ActionConstraints;
+using OrchardCore.Queries.Sql;
+using OrchardCore.Queries.Sql.ViewModels;
 using YesSql;
 
 namespace NewsManage.Controllers
@@ -11,11 +26,23 @@ namespace NewsManage.Controllers
     public class DisplayController : Controller, IUpdateModel
     {
         private readonly ISession _session;
+        private readonly IAuthorizationService _authorizationService;
+        private readonly IStore _store;
+        private readonly ILiquidTemplateManager _liquidTemplateManager;
+        private readonly IStringLocalizer<DisplayController> _stringLocalizer;
 
-        public DisplayController(ISession session)
+        public DisplayController(
+            IAuthorizationService authorizationService, 
+            ILiquidTemplateManager liquidTemplateManager, 
+            IStore store, 
+            ISession session,
+            IStringLocalizer<DisplayController> stringLocalizer)
         {
             _session = session;
-            
+            _authorizationService = authorizationService;
+            _liquidTemplateManager = liquidTemplateManager;
+            _store = store;
+            _stringLocalizer = stringLocalizer;
         }
 
         public ActionResult TypeDisplayIndex()
@@ -52,17 +79,91 @@ namespace NewsManage.Controllers
             return Json(NewPartData);
         }
 
-        public ActionResult SearchDisplay()
-        {
 
-            return View();
+        public async Task<IActionResult> SearchContent()
+        {
+            var select = Request.Query["select"];
+            var content = Request.Query["content"];
+            var model = new AdminQueryViewModel();
+            model.DecodedQuery = "SELECT * FROM ContentItemIndex";
+            model.Parameters = "{}";
+            if (select == "all")
+            {
+                model.DecodedQuery = "SELECT * FROM document where " +
+                                     "Type=\'OrchardCore.ContentManagement.ContentItem, OrchardCore.ContentManagement.Abstractions\'" +
+                                     "and Content  LIKE \'%Published\":true%\'" +
+                                     "and Content  LIKE \'%ContentType_%\' " +
+                                     "and Content  LIKE \'%Title%\' " +
+                                     "and Content  LIKE \'%Body%\'" +
+                                     "and Content  LIKE \'%" +
+                                     content +
+                                     "%\'";
+
+            }
+            if (select == "zhengwen")
+            {
+
+            }
+            if (select == "biaoti")
+            {
+
+            }
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            var connection = _store.Configuration.ConnectionFactory.CreateConnection();
+            var dialect = SqlDialectFactory.For(connection);
+
+            var parameters = JsonConvert.DeserializeObject<Dictionary<string, object>>(model.Parameters);
+            var templateContext = new TemplateContext();
+            foreach (var parameter in parameters)
+            {
+                templateContext.SetValue(parameter.Key, parameter.Value);
+            }
+
+            var tokenizedQuery = await _liquidTemplateManager.RenderAsync(model.DecodedQuery, templateContext);
+
+            if (SqlParser.TryParse(tokenizedQuery, dialect, _store.Configuration.TablePrefix, out var rawQuery, out var rawParameters, out var messages))
+            {
+                model.RawSql = rawQuery;
+                model.RawParameters = JsonConvert.SerializeObject(rawParameters);
+
+                try
+                {
+                    using (connection)
+                    {
+                        connection.Open();
+                        model.Documents = await connection.QueryAsync(rawQuery, rawParameters);
+                    }
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError("", _stringLocalizer["An error occured while executing the SQL query: {0}", e.Message]);
+                }
+            }
+            else
+            {
+                foreach (var message in messages)
+                {
+                    ModelState.AddModelError("", message);
+                }
+            }
+
+            model.Elapsed = stopwatch.Elapsed;
+            //var list = new List<String>();
+            //foreach (var item in model.Documents)
+            //{
+            //    var serializer = new JsonSerializer();
+            //    var str = JsonConvert.SerializeObject(item);
+            //    var sr1 = new StringReader(str);
+            //    var o1 = serializer.Deserialize(new JsonTextReader(sr1), typeof(NewContent));
+            //    var newContent = o1 as NewContent;
+            //    var a = newContent.Content;
+            //    list.Add(newContent.Content);
+            //}
+
+            return View(model);
         }
 
-        public JsonResult Search()
-        {
-            var list = "";
-
-            return Json(list);
-        }
     }
 }
