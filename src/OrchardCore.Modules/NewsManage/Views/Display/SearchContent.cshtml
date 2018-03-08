@@ -1,10 +1,11 @@
 @model OrchardCore.Queries.Sql.ViewModels.AdminQueryViewModel
 
-<br><br>
-    <div class="container" width="960" style="padding-left:5.4%">
 
-        @if (Model.Documents.Any())
+<div class="container" width="960" style="padding-left:5.4%">
+
+    @if (Model.Documents.Any())
     {
+        <br><br>
         <h2>你查找的新闻，如下：</h2>
         <div class="panel panel-info" style="background: none;">
             <div class="panel-body" style="width: 100%;">
@@ -32,30 +33,34 @@
             var tableStr = "";
         </script>
         @foreach (var document in Model.Documents)
-    {
-        <script>
+        {
+            <script>
             var list = JSON.parse(@Json.Serialize(document.Content));
             console.log(list);
-            tableStr = tableStr + "<tr><td align='center'>" + list.Author 
+            tableStr = tableStr + "<tr><td align='center'>" + list.Author
                 + "</td>" + "<td align='center'><a href='/New/NewsManage/Display/NewPartDisplay?ContentItemId="
                 + list.ContentItemId + "'>" + list.TitlePart.Title + "</a></td>"
                 + "<td align='center'><a href='/New/NewsManage/Display/TypeDisplayIndex?ContentType="
                 + list.ContentType + "'>" + list.ContentType.substring(12) + "</a></td>"
                 + "<td align='center'>" + list.PublishedUtc.substring(0,10) + "</td>";
-            
-        </script>
 
-}
+            </script>
+
+        }
         <script>
             $("#dataTable").html(tableStr);
         </script>
-}
-        @if (!Model.Documents.Any())
+    }
+    @if (!Model.Documents.Any())
     {
-        <h1>没有找到你要查找的新闻!!!</h1>
 
-}
+        <script>
+            alert('没有找到你要查找的新闻!!!');
+            window.history.back(-1);
+        </script>
 
-    </div>
+    }
+
+</div>
 
 
