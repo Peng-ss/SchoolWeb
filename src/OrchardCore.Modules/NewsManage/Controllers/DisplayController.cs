@@ -166,4 +166,5 @@ namespace NewsManage.Controllers
         }
 
     }
+
 }

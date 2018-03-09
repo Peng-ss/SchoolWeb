@@ -56,23 +56,23 @@ namespace NewsManage.Controllers
         {
             //新建Page模版
             CreateIndexTemplate();
-            //string[] Role1 = new string[16] {"NewManage","AccessAdminPanel","EditOwnContent","EditContent","ViewOwnContent","PreviewOwnContent","PreviewContent",
-            //"ViewContentTypes","EditContentTypes","PublishOwnContent","PublishContent","DeleteOwnContent","DeleteContent","ViewContent","SetHomepage","ContentPreview"};
-            //string[] Role2 = new string[7] {"NewEditor","AccessAdminPanel","EditOwnContent","EditContent","ViewOwnContent","PreviewOwnContent","PreviewContent" };
-            //List<RoleClaim> rolePermissions1 = new List<RoleClaim>();
-            //List<RoleClaim> rolePermissions2 = new List<RoleClaim>();
-            //for (var i = 0; i < Role1.Length; i++)
-            //{
-            //    rolePermissions1.Add(new RoleClaim { ClaimType = "Permission", ClaimValue = Role1[i] });
-            //}
-            //for (var i = 0; i < Role2.Length; i++)
-            //{
-            //    rolePermissions2.Add(new RoleClaim { ClaimType = "Permission", ClaimValue = Role2[i] });
-            //}
-            ////添加角色：新闻管理者
-            //CreateRole(new CreateRoleViewModel { RoleName = "新闻管理者" }, rolePermissions1);
-            ////添加角色：新闻编辑者
-            //CreateRole(new CreateRoleViewModel { RoleName = "新闻编辑者" }, rolePermissions2);
+            string[] Role1 = new string[15] {"NewManage","AccessAdminPanel","EditOwnContent","EditContent","ViewOwnContent","PreviewOwnContent","PreviewContent",
+            "ViewContentTypes","EditContentTypes","PublishOwnContent","PublishContent","DeleteOwnContent","DeleteContent","ViewContent","ContentPreview"};
+            string[] Role2 = new string[7] { "NewEditor", "AccessAdminPanel", "EditOwnContent", "EditContent", "ViewOwnContent", "PreviewOwnContent", "PreviewContent" };
+            List<RoleClaim> rolePermissions1 = new List<RoleClaim>();
+            List<RoleClaim> rolePermissions2 = new List<RoleClaim>();
+            for (var i = 0; i < Role1.Length; i++)
+            {
+                rolePermissions1.Add(new RoleClaim { ClaimType = "Permission", ClaimValue = Role1[i] });
+            }
+            for (var i = 0; i < Role2.Length; i++)
+            {
+                rolePermissions2.Add(new RoleClaim { ClaimType = "Permission", ClaimValue = Role2[i] });
+            }
+            //添加角色：新闻管理者
+            CreateRole(new CreateRoleViewModel { RoleName = "新闻管理者" }, rolePermissions1);
+            //添加角色：新闻编辑者
+            CreateRole(new CreateRoleViewModel { RoleName = "新闻编辑者" }, rolePermissions2);
             return View();
         }
 
@@ -110,7 +110,7 @@ namespace NewsManage.Controllers
 
         }
 
-        //添加角色函数
+        //添加角色及权限函数
         public async void CreateRole(CreateRoleViewModel model, List<RoleClaim> rolePermissions)
         {
             if (ModelState.IsValid)
@@ -142,5 +142,6 @@ namespace NewsManage.Controllers
             await _roleManager.UpdateAsync(role);
         }
 
+        
     }
 }

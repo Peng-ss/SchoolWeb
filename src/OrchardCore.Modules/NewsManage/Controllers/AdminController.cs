@@ -78,11 +78,13 @@ namespace NewsManage.Controllers
 
         public ActionResult ReleaseManage()
         {
+
             return View();
         }
         //返回所有的新闻内容
         public JsonResult ReadPartContents()
         {
+            
             var Data = new List<object>();
             var NewTypeData = _session.Query<ContentItem>().ListAsync().Result
                 .Where(x => x.ContentType == "新闻组管理" && x.Latest)

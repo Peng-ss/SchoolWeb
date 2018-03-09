@@ -1,7 +1,6 @@
 
 <br>
 <center>
-   
     <div class="container" style=" padding-left:5%;">
         <div width="90%">
             <div style="margin-left:1px;">             	</div>
@@ -35,7 +34,7 @@
                                         for (var i = 0; i < len; i++) {
                                             if (Data[i].TypeNewClassifyPart) //判断是否有分类
                                             {
-                                                Str1 = Str1 + " <li ><span style='float:left;'>广大人 | " + Data[i].TypeNewClassifyPart.NewClassifyType + "</span><a href='/New/NewsManage/Display/NewPartDisplay?ContentType=" + ContentType +
+                                                Str1 = Str1 + " <li ><span style='float:left;'>广大人&nbsp; |&nbsp; " + Data[i].TypeNewClassifyPart.NewClassifyType + "</span><a href='/New/NewsManage/Display/NewPartDisplay?ContentType=" + ContentType +
                                                     "&ContentItemId=" + Data[i].ContentItemId + "' title='" + Data[i].TitlePart.Title +
                                                     "'>" + Data[i].TitlePart.Title + "</a><span style='float:right;padding-right:7.5%'>" + Data[i].CreatedUtc.substring(0, 10) + "</span></li>";
                                             }
