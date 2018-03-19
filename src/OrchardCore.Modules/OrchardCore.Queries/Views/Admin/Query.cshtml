@@ -65,14 +65,16 @@
     @foreach (var document in Model.Documents)
     {
         <div>@Json.Serialize(document)</div>
+
     }
 }
 
-<script at="Foot">
+        <script at="Foot">
     $(function() {
         CodeMirror.fromTextArea(document.getElementById('@Html.IdFor(m => m.DecodedQuery)'), { mode: "text/x-sql", lineNumbers: true, viewportMargin: Infinity });
         CodeMirror.fromTextArea(document.getElementById('@Html.IdFor(m => m.Parameters)'), { mode: "javascript", json: true, lineNumbers: true, viewportMargin: Infinity });
         CodeMirror.fromTextArea(document.getElementById('@Html.IdFor(m => m.RawSql)'), { mode: "text/x-sql", lineNumbers: true, readonly: true, viewportMargin: Infinity });
         CodeMirror.fromTextArea(document.getElementById('@Html.IdFor(m => m.RawParameters)'), { mode: "javascript", readonly: true, json: true, lineNumbers: true, viewportMargin: Infinity });
     });
-</script>
+  
+        </script>

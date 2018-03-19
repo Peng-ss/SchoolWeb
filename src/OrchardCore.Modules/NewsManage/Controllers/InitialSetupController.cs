@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.Localization;
+using NewsManage.WXInterface;
 using OrchardCore.Admin;
 using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Notify;
@@ -54,6 +57,15 @@ namespace NewsManage.Controllers
         [Admin]
         public ActionResult NewSetup()
         {
+            try
+            {
+                Thread thread = new Thread(AccessTokenThread);
+                thread.Start();
+            }
+            catch (Exception e)
+            {
+                throw new Exception("创建线程有异常", e);
+            }
             //新建Page模版
             CreateIndexTemplate();
             string[] Role1 = new string[15] {"NewManage","AccessAdminPanel","EditOwnContent","EditContent","ViewOwnContent","PreviewOwnContent","PreviewContent",
@@ -142,6 +154,26 @@ namespace NewsManage.Controllers
             await _roleManager.UpdateAsync(role);
         }
 
-        
+
+        private static void AccessTokenThread()
+        {
+            while (true)
+            {
+                var str = GetAccessToken.Getaccesstoken();
+                Console.WriteLine(str);
+                Debug.WriteLine(str);
+                if ( str== "success")
+                {
+                    //Debug.WriteLine("获取成功，准备线程休眠7000秒");
+                    Thread.Sleep(7000 * 1000);
+                }
+                else
+                {
+                    Thread.Sleep(30 *1000);
+                }
+                
+            }
+            
+        }
     }
 }

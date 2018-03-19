@@ -12,25 +12,7 @@ namespace NewsManage
 
         public IEnumerable<PermissionStereotype> GetDefaultStereotypes()
         {
-            return new[]
-            {
-                new PermissionStereotype
-                {
-                   Name = "新闻管理者",
-                   Permissions = new []
-                   {
-                       NewManage
-                   }
-                },
-                new PermissionStereotype
-                {
-                    Name = "新闻编辑者",
-                    Permissions = new[]
-                    {
-                        NewEditor
-                    }
-                }
-            };
+            return null;
         }
 
         public IEnumerable<Permission> GetPermissions()

@@ -1,9 +1,11 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NewsManage.WXInterface;
 using OrchardCore.Users.Services;
 using OrchardCore.Users.ViewModels;
 
@@ -54,6 +56,10 @@ namespace OrchardCore.Users.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(1, "User logged in.");
+                    if (string.Compare(returnUrl, "/new/admin", true) ==0)
+                    {
+                        SendTemplate.SendLogintemplate(Httpgetpost.accesstoken, model.UserName);
+                    }
                     return RedirectToLocal(returnUrl);
                 }
                 //if (result.RequiresTwoFactor)
@@ -71,7 +77,6 @@ namespace OrchardCore.Users.Controllers
                     return View(model);
                 }
             }
-
             // If we got this far, something failed, redisplay form
             return View(model);
         }

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using NewsManage.Models;
 using NewsManage.ViewModels;
+using NewsManage.WXInterface;
 using Newtonsoft.Json;
 using OrchardCore.Admin;
 using OrchardCore.ContentManagement;
@@ -30,6 +31,7 @@ namespace NewsManage.Controllers
         private readonly IStore _store;
         private readonly ILiquidTemplateManager _liquidTemplateManager;
         private readonly IStringLocalizer<DisplayController> _stringLocalizer;
+       
 
         public DisplayController(
             IAuthorizationService authorizationService, 
@@ -80,16 +82,18 @@ namespace NewsManage.Controllers
         }
 
 
-        public async Task<IActionResult> SearchContent()
+        public async Task<IActionResult> SearchIndex()
         {
             var select = Request.Query["select"];
             var content = Request.Query["content"];
-            var model = new AdminQueryViewModel();
-            model.DecodedQuery = "SELECT * FROM ContentItemIndex";
-            model.Parameters = "{}";
+            var model = new AdminQueryViewModel
+            {
+                DecodedQuery = "SELECT * FROM ContentItemIndex",
+                Parameters = "{}"
+            };
             if (select == "all")
             {
-                model.DecodedQuery = "SELECT * FROM document where " +
+                model.DecodedQuery = "SELECT * FROM Document where " +
                                      "Type=\'OrchardCore.ContentManagement.ContentItem, OrchardCore.ContentManagement.Abstractions\'" +
                                      "and Content  LIKE \'%Published\":true%\'" +
                                      "and Content  LIKE \'%ContentType_%\' " +
@@ -98,6 +102,7 @@ namespace NewsManage.Controllers
                                      "and Content  LIKE \'%" +
                                      content +
                                      "%\'";
+
 
             }
             if (select == "zhengwen")
@@ -162,8 +167,11 @@ namespace NewsManage.Controllers
             //    list.Add(newContent.Content);
             //}
 
+            SendTemplate.SendSearchtemplate(Httpgetpost.accesstoken,content);
             return View(model);
         }
+
+        
 
     }
 
